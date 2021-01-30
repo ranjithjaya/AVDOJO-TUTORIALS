@@ -1,27 +1,33 @@
-import React, { Component } from 'react'
-import GoogleLogin from 'react-google-login'
-export class App extends Component {
+import React, { useState } from "react";
+//import ReactDOM from "react-dom";
+//import "./styles.css";
+import GoogleLogin from "react-google-login";
 
-  responseGoogle=(response)=>{
-    console.log(response);
-    console.log(response.profileObj);
-    
-    
-  }
-  render() {
-    return (
-      <div>
-        <GoogleLogin
-        clientId="276655996971-tqcgsfqvun9d061loj9t47demuhbqb9l.apps.googleusercontent.com"
+export default function App() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [url, setUrl] = useState("");
+
+  const responseGoogle = (response) => {
+    setName(response.profileObj.name);
+    setEmail(response.profileObj.email);
+    setUrl(response.profileObj.imageUrl);
+  };
+
+  return (
+    <div className="App">
+      <h1>Login with Google</h1>
+      <h2>Welcome: {name}</h2>
+      <h2>E-mail: {email}</h2>
+      <img src={url} alt={name} />
+      <br></br>
+      <GoogleLogin
+        clientId="894911154406-hpdplp8aib3i5chsji6etebhl5lnegvl.apps.googleusercontent.com"
         buttonText="Login"
-        onSuccess={this.responseGoogle}
-        onFailure={this.responseGoogle}
-        cookiePolicy={'single_host_origin'}
-        
-        />
-      </div>
-    )
-  }
+        onSuccess={responseGoogle}
+        onFailure={responseGoogle}
+        cookiePolicy={"single_host_origin"}
+      />
+    </div>
+  );
 }
-
-export default App
